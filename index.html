@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>The Sacred Garden — Eleanor &amp; Alexander</title>
+    <meta property="og:title" content="The Sacred Garden — Eleanor &amp; Alexander">
+    <meta property="og:description" content="You are cordially invited to witness the blooming of eternal love.">
+    <meta property="og:image" content="./assets/sacred_garden_bg.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════
+         CINEMATIC OPENING EXPERIENCE
+    ═══════════════════════════════════════════════════ -->
+    <div id="cinematicOpening" class="cinematic-opening">
+
+        <!-- Stage canvas for particles -->
+        <canvas id="openingCanvas" class="opening-canvas"></canvas>
+
+        <!-- ── STAGE 0: Pure black with garden sound-wave pulse ── -->
+        <div id="stage0" class="stage stage-0 active">
+            <div class="dark-vignette"></div>
+            <div class="stage0-content">
+                <div class="halo-ring ring-1"></div>
+                <div class="halo-ring ring-2"></div>
+                <div class="halo-ring ring-3"></div>
+                <div class="garden-monogram">
+                    <svg viewBox="0 0 120 120" class="monogram-svg">
+                        <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(212,175,55,0.25)" stroke-width="0.5"/>
+                        <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="0.5"/>
+                        <!-- Botanical leaf ornament -->
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.6)" transform="rotate(0,60,60)"/>
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.5)" transform="rotate(45,60,60)"/>
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.5)" transform="rotate(90,60,60)"/>
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.5)" transform="rotate(135,60,60)"/>
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.5)" transform="rotate(180,60,60)"/>
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.5)" transform="rotate(225,60,60)"/>
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.5)" transform="rotate(270,60,60)"/>
+                        <ellipse cx="60" cy="30" rx="5" ry="12" fill="rgba(212,175,55,0.5)" transform="rotate(315,60,60)"/>
+                        <circle cx="60" cy="60" r="8" fill="rgba(212,175,55,0.8)"/>
+                        <text x="60" y="65" text-anchor="middle" font-family="Cinzel Decorative" font-size="9" fill="#D4AF37" letter-spacing="2">E&amp;A</text>
+                    </svg>
+                </div>
+                <p class="stage0-hint">✦ Touch to begin ✦</p>
+            </div>
+        </div>
+
+        <!-- ── STAGE 1: Full-screen dramatic reveal ── -->
+        <div id="stage1" class="stage stage-1">
+            <div class="stage1-bg" style="background-image:url('./assets/sacred_garden_bg.png')"></div>
+            <div class="stage1-overlay"></div>
+            <div class="light-rays">
+                <div class="ray ray-1"></div>
+                <div class="ray ray-2"></div>
+                <div class="ray ray-3"></div>
+                <div class="ray ray-4"></div>
+                <div class="ray ray-5"></div>
+            </div>
+            <div class="stage1-content">
+                <div class="s1-ornament">— ✦ —</div>
+                <h1 class="s1-title">The<br><em>Sacred Garden</em></h1>
+                <div class="s1-line"></div>
+                <p class="s1-sub">A Wedding Celebration</p>
+            </div>
+        </div>
+
+        <!-- ── STAGE 2: Envelope + Wax Seal ── -->
+        <div id="stage2" class="stage stage-2">
+            <div class="stage2-bg"></div>
+
+            <!-- Atmospheric particles backdrop -->
+            <div class="atmos-glow"></div>
+
+            <div class="stage2-content">
+                <!-- Top label -->
+                <div class="seal-label-top">
+                    <span class="seal-label-line"></span>
+                    <span class="seal-label-text">Your Sacred Invitation Awaits</span>
+                    <span class="seal-label-line"></span>
+                </div>
+
+                <!-- The Envelope 3D card -->
+                <div class="env-scene" id="envScene">
+                    <!-- Paper card with inner content -->
+                    <div class="env-card" id="envCard">
+                        <div class="env-card-front">
+                            <!-- Decorative corners -->
+                            <div class="env-corner c-tl"></div>
+                            <div class="env-corner c-tr"></div>
+                            <div class="env-corner c-bl"></div>
+                            <div class="env-corner c-br"></div>
+                            <!-- Inner border -->
+                            <div class="env-inner-border"></div>
+                            <!-- Content -->
+                            <div class="env-card-text">
+                                <span class="env-pre">Together with their families</span>
+                                <h2 class="env-names">Eleanor<br><em>&amp;</em><br>Alexander</h2>
+                                <div class="env-sep"><span></span><span>✦</span><span></span></div>
+                                <p class="env-request">Request the honour of your<br>presence at their wedding</p>
+                                <h3 class="env-venue">The Sacred Garden</h3>
+                                <p class="env-date">Saturday · October 24, 2026</p>
+                                <p class="env-time">Four o'clock in the afternoon</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wax Seal on top -->
+                    <div class="wax-btn" id="waxBtn">
+                        <div class="wax-outer-ring"></div>
+                        <div class="wax-mid-ring"></div>
+                        <div class="wax-body">
+                            <img src="./assets/wax_seal_emblem.png" alt="Seal" class="wax-img">
+                        </div>
+                        <div class="wax-cracks" id="waxCracks">
+                            <div class="crack crack-1"></div>
+                            <div class="crack crack-2"></div>
+                            <div class="crack crack-3"></div>
+                            <div class="crack crack-4"></div>
+                        </div>
+                        <!-- Pulse aura -->
+                        <div class="wax-aura aura-1"></div>
+                        <div class="wax-aura aura-2"></div>
+                    </div>
+                </div>
+
+                <!-- Tap hint -->
+                <div class="tap-hint" id="tapHint">
+                    <div class="tap-chevrons">
+                        <span class="tap-chev"></span>
+                        <span class="tap-chev"></span>
+                        <span class="tap-chev"></span>
+                    </div>
+                    <span class="tap-text">Break the seal to reveal your invitation</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STAGE 3: Dramatic full-screen card unfurl ── -->
+        <div id="stage3" class="stage stage-3">
+            <div class="stage3-bg" style="background-image:url('./assets/sacred_garden_bg.png')"></div>
+            <div class="stage3-vignette"></div>
+            <div class="unfurl-card" id="unfurlCard">
+                <div class="unfurl-corner uc-tl"></div>
+                <div class="unfurl-corner uc-tr"></div>
+                <div class="unfurl-corner uc-bl"></div>
+                <div class="unfurl-corner uc-br"></div>
+                <div class="unfurl-border"></div>
+                <div class="unfurl-content">
+                    <div class="uf-top">— A Sacred Invitation —</div>
+                    <h1 class="uf-names">Eleanor &amp; Alexander</h1>
+                    <div class="uf-ornament">❖</div>
+                    <p class="uf-body">
+                        request the honour of your presence<br>
+                        at the celebration of their marriage
+                    </p>
+                    <div class="uf-details">
+                        <div class="uf-detail-row">
+                            <span class="uf-detail-icon">📅</span>
+                            <span class="uf-detail-text">Saturday, October 24, 2026</span>
+                        </div>
+                        <div class="uf-detail-row">
+                            <span class="uf-detail-icon">🕓</span>
+                            <span class="uf-detail-text">Four o'clock in the afternoon</span>
+                        </div>
+                        <div class="uf-detail-row">
+                            <span class="uf-detail-icon">📍</span>
+                            <span class="uf-detail-text">The Glasshouse Estate, CA</span>
+                        </div>
+                    </div>
+                    <button class="uf-enter-btn" id="enterMainBtn">
+                        <span>Enter the Garden</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /#cinematicOpening -->
+
+
+    <!-- ═══════════════════════════════════════════════════
+         MAIN INVITATION CONTENT
+    ═══════════════════════════════════════════════════ -->
+    <div id="mainContent" class="main-content is-hidden">
+
+        <!-- Particle canvas -->
+        <canvas id="particleCanvas" class="particle-canvas"></canvas>
+
+        <!-- Custom cursor (desktop only) -->
+        <div id="customCursor" class="custom-cursor"></div>
+        <div id="customCursorFollower" class="custom-cursor-follower"></div>
+
+        <!-- Audio element -->
+        <audio id="bgAudio" loop preload="auto">
+            <source src="https://pub-4dc8201144ca418fb604349c73e8c724.r2.dev/Einaudi_%20Divenire%20(1)%20(1).mp3" type="audio/mp3">
+        </audio>
+
+        <!-- ── NAVIGATION ── -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-logo">E &amp; A</div>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="#hero" class="nav-link">Home</a></li>
+                    <li><a href="#story" class="nav-link">Our Story</a></li>
+                    <li><a href="#schedule" class="nav-link">Schedule</a></li>
+                    <li><a href="#venue" class="nav-link">Venue</a></li>
+                    <li><a href="#dresscode" class="nav-link">Attire</a></li>
+                    <li><a href="#guestbook" class="nav-link">Wishes</a></li>
+                </ul>
+                <button class="nav-rsvp-btn" id="openRsvpBtnNav">RSVP Now</button>
+            </div>
+        </nav>
+
+        <!-- Audio + Replay Controls -->
+        <div class="float-controls">
+            <button id="audioToggleBtn" class="float-btn audio-btn" title="Toggle Music">
+                <div class="vinyl-disc" id="vinylDisc"><div class="vinyl-center"></div></div>
+                <div class="eq-bars" id="eqBars">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </button>
+            <button id="replayInviteBtn" class="float-btn replay-btn" title="Replay Invitation">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 .49-3.01"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- ── HERO ── -->
+        <section id="hero" class="hero-section">
+            <div class="hero-bg" style="background-image:url('./assets/sacred_garden_bg.png')"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-inner">
+                <div class="hero-badge" data-reveal>
+                    <span>✦</span>
+                    <span>The Wedding Celebration</span>
+                    <span>✦</span>
+                </div>
+                <h1 class="hero-title" data-reveal>
+                    <span class="ht-name">Eleanor Vance</span>
+                    <span class="ht-amp">&amp;</span>
+                    <span class="ht-name">Alexander Thorne</span>
+                </h1>
+                <p class="hero-tagline" data-reveal>
+                    Invite you to witness the blooming of eternal love amidst the enchantment of The Sacred Garden.
+                </p>
+                <div class="hero-card" data-reveal>
+                    <div class="hc-item">
+                        <span class="hc-label">Date</span>
+                        <span class="hc-val">Saturday, October 24, 2026</span>
+                    </div>
+                    <div class="hc-div"></div>
+                    <div class="hc-item">
+                        <span class="hc-label">Venue</span>
+                        <span class="hc-val">The Glasshouse Estate, CA</span>
+                    </div>
+                    <div class="hc-div"></div>
+                    <div class="hc-item">
+                        <span class="hc-label">Time</span>
+                        <span class="hc-val">Four O'Clock · Afternoon</span>
+                    </div>
+                </div>
+                <div class="countdown-wrap" data-reveal>
+                    <span class="cd-header">Counting Down To Our Forever</span>
+                    <div class="cd-grid">
+                        <div class="cd-box"><span class="cd-num" id="daysNum">00</span><span class="cd-lbl">Days</span></div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-box"><span class="cd-num" id="hoursNum">00</span><span class="cd-lbl">Hours</span></div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-box"><span class="cd-num" id="minutesNum">00</span><span class="cd-lbl">Min</span></div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-box"><span class="cd-num" id="secondsNum">00</span><span class="cd-lbl">Sec</span></div>
+                    </div>
+                </div>
+                <div class="hero-btns" data-reveal>
+                    <button class="btn-gold" id="openRsvpBtnHero"><span>✦</span> Confirm RSVP</button>
+                    <button class="btn-outline" id="addToCalBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        Save Date
+                    </button>
+                </div>
+            </div>
+            <div class="hero-scroll">
+                <span>Scroll to Explore</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- ── OUR STORY ── -->
+        <section id="story" class="section story-section">
+            <div class="sec-header" data-reveal>
+                <span class="sec-sub">Our Journey</span>
+                <h2 class="sec-title">How Our Garden Grew</h2>
+                <div class="sec-orn">❖</div>
+            </div>
+            <div class="story-layout">
+                <div class="story-photo-card" data-reveal>
+                    <div class="spc-img-wrap">
+                        <img src="./assets/couple_photo.png" alt="Eleanor & Alexander" class="spc-img">
+                        <div class="spc-glow"></div>
+                    </div>
+                    <div class="spc-text">
+                        <span class="spc-year">2021 — 2026</span>
+                        <h3>Two Souls, One Destination</h3>
+                        <p>From a chance encounter under cherry blossoms in Kyoto, to late-night conversations under starlit skies — our love blossomed organically. Five years of shared dreams have led us to this sacred moment.</p>
+                    </div>
+                </div>
+                <div class="story-timeline" data-reveal>
+                    <div class="tl-item">
+                        <div class="tl-dot">✦</div>
+                        <div class="tl-card">
+                            <span class="tl-date">Spring 2021</span>
+                            <h4>The First Encounter</h4>
+                            <p>Met at the Botanical Guild Gala in Florence, bonding over rare midnight orchids and vintage vinyl records.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot">✦</div>
+                        <div class="tl-card">
+                            <span class="tl-date">Autumn 2024</span>
+                            <h4>The Venice Proposal</h4>
+                            <p>Under an ancient glasshouse filled with glowing lanterns, Alexander asked Eleanor to spend forever with him.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot">✦</div>
+                        <div class="tl-card">
+                            <span class="tl-date">October 24, 2026</span>
+                            <h4>The Sacred Vows</h4>
+                            <p>Surrounded by beloved family and cherished friends, we exchange eternal vows in The Sacred Garden.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── SCHEDULE ── -->
+        <section id="schedule" class="section schedule-section">
+            <div class="sec-header" data-reveal>
+                <span class="sec-sub">The Order of Events</span>
+                <h2 class="sec-title">A Day of Wonder</h2>
+                <div class="sec-orn">❖</div>
+            </div>
+            <div class="schedule-grid" data-reveal>
+                <div class="sch-card">
+                    <span class="sch-time">04:00 <small>PM</small></span>
+                    <span class="sch-period">Arrival</span>
+                    <h3 class="sch-title">Welcome Refreshments</h3>
+                    <p>Artisanal floral elixirs, chilled champagne, and live harp harmonies in the Rose Arbor.</p>
+                    <span class="sch-loc">📍 Rose Arbor Pavilion</span>
+                </div>
+                <div class="sch-card sch-featured">
+                    <span class="sch-time">05:15 <small>PM</small></span>
+                    <span class="sch-period">Ceremony</span>
+                    <h3 class="sch-title">Exchange of Sacred Vows</h3>
+                    <p>Witness our union inside the Victorian Floral Sanctuary as twilight sunbeams illuminate the altar.</p>
+                    <span class="sch-loc">📍 The Glasshouse Sanctuary</span>
+                </div>
+                <div class="sch-card">
+                    <span class="sch-time">07:00 <small>PM</small></span>
+                    <span class="sch-period">Banquet</span>
+                    <h3 class="sch-title">The Golden Gala Dinner</h3>
+                    <p>5-course gourmet dining by Michelin-star chefs with botanical wine pairings.</p>
+                    <span class="sch-loc">📍 Grand Ballroom Conservatory</span>
+                </div>
+                <div class="sch-card">
+                    <span class="sch-time">09:30 <small>PM</small></span>
+                    <span class="sch-period">Celebration</span>
+                    <h3 class="sch-title">Dancing &amp; Midnight Sparklers</h3>
+                    <p>Dance under starlight and a spectacular fireworks finale across the lake.</p>
+                    <span class="sch-loc">📍 Moonlit Terrace &amp; Lawn</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── VENUE ── -->
+        <section id="venue" class="section venue-section">
+            <div class="sec-header" data-reveal>
+                <span class="sec-sub">The Destination</span>
+                <h2 class="sec-title">The Sacred Conservatory</h2>
+                <div class="sec-orn">❖</div>
+            </div>
+            <div class="venue-layout" data-reveal>
+                <div class="venue-img-wrap">
+                    <img src="./assets/venue_photo.png" alt="Glasshouse Estate" class="venue-img">
+                    <div class="venue-badge">Luxury Estate &amp; Gardens</div>
+                </div>
+                <div class="venue-info">
+                    <h3>Glasshouse Estate &amp; Gardens</h3>
+                    <p class="venue-addr">774 Emerald Valley Road, Highland Estate, CA 90210</p>
+                    <p class="venue-desc">Nestled amidst rolling hills and ancient pine groves, The Glasshouse Estate features 19th-century wrought-iron glasshouses, cascading water fountains, and rare botanical blooms from six continents.</p>
+                    <div class="venue-chips">
+                        <span class="chip">🚗 Valet Parking</span>
+                        <span class="chip">🏨 Private Suites</span>
+                        <span class="chip">🍷 Sommelier Bar</span>
+                    </div>
+                    <button class="btn-gold" id="openMapBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        View Venue Map
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── DRESS CODE ── -->
+        <section id="dresscode" class="section dresscode-section">
+            <div class="sec-header" data-reveal>
+                <span class="sec-sub">Attire Guidance</span>
+                <h2 class="sec-title">Black Tie &amp; Botanical Elegance</h2>
+                <div class="sec-orn">❖</div>
+            </div>
+            <p class="dresscode-intro" data-reveal>We invite you to dress in formal black-tie attire inspired by the rich hues of an enchanted botanical sanctuary.</p>
+            <div class="swatches" data-reveal>
+                <div class="swatch active" data-color="emerald">
+                    <div class="swatch-dot" style="background:linear-gradient(135deg,#093829,#135A43)"></div>
+                    <span class="swatch-name">Deep Emerald</span>
+                    <span class="swatch-hex">#135A43</span>
+                </div>
+                <div class="swatch" data-color="gold">
+                    <div class="swatch-dot" style="background:linear-gradient(135deg,#D4AF37,#AA7C11)"></div>
+                    <span class="swatch-name">Champagne Gold</span>
+                    <span class="swatch-hex">#D4AF37</span>
+                </div>
+                <div class="swatch" data-color="rose">
+                    <div class="swatch-dot" style="background:linear-gradient(135deg,#7A2E3B,#9E4554)"></div>
+                    <span class="swatch-name">Vintage Rose</span>
+                    <span class="swatch-hex">#7A2E3B</span>
+                </div>
+                <div class="swatch" data-color="midnight">
+                    <div class="swatch-dot" style="background:linear-gradient(135deg,#101625,#1B263B)"></div>
+                    <span class="swatch-name">Midnight Velvet</span>
+                    <span class="swatch-hex">#1B263B</span>
+                </div>
+            </div>
+            <div class="swatch-preview" id="swatchPreview" data-reveal>
+                <h4 id="swatchTitle">Deep Emerald Inspiration</h4>
+                <p id="swatchDesc">Floor-length velvet evening gowns, dark jewel-toned tuxedos, or emerald lapel pins and silk pocket squares.</p>
+            </div>
+        </section>
+
+        <!-- ── WISHES WALL ── -->
+        <section id="guestbook" class="section guestbook-section">
+            <div class="sec-header" data-reveal>
+                <span class="sec-sub">Shared Joy</span>
+                <h2 class="sec-title">The Sacred Wishes Wall</h2>
+                <div class="sec-orn">❖</div>
+            </div>
+            <div class="wishes-grid" id="wishesGrid" data-reveal>
+                <div class="wish-card">
+                    <p class="wish-quote">"May your love grow deeper with every passing day, like the timeless trees of the ancient forest. So thrilled to celebrate with you both!"</p>
+                    <div class="wish-footer">
+                        <span class="wish-name">Sophia &amp; Julian Vance</span>
+                        <span class="wish-tag">Attending ✦</span>
+                    </div>
+                </div>
+                <div class="wish-card">
+                    <p class="wish-quote">"To Eleanor &amp; Alexander, wishing you a lifetime of laughter, grand adventures, and eternal romance. See you in the garden!"</p>
+                    <div class="wish-footer">
+                        <span class="wish-name">Dr. Arthur Pendelton</span>
+                        <span class="wish-tag">Attending ✦</span>
+                    </div>
+                </div>
+            </div>
+            <div class="wishes-cta" data-reveal>
+                <button class="btn-outline" id="openWishBtn">✍️ Leave Your Blessing &amp; Wish</button>
+            </div>
+        </section>
+
+        <!-- ── FOOTER ── -->
+        <footer class="footer">
+            <div class="footer-orn">❖ ✦ ❖</div>
+            <h2 class="footer-names">Eleanor &amp; Alexander</h2>
+            <p class="footer-date">October 24, 2026 — The Sacred Garden</p>
+            <p class="footer-tag">#TheSacredGarden2026</p>
+            <p class="footer-credit">Crafted with love &amp; elegance.</p>
+        </footer>
+    </div><!-- /#mainContent -->
+
+
+    <!-- ═══════════════════════════════════════════════════
+         MODALS
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- RSVP Modal -->
+    <div id="rsvpModal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" id="closeRsvpBtn">&times;</button>
+            <div class="modal-head">
+                <span class="modal-sub">Honour Us With Your Presence</span>
+                <h3 class="modal-title">RSVP Confirmation</h3>
+            </div>
+            <iframe name="rsvp_target_frame" id="rsvp_target_frame" style="display:none;"></iframe>
+            <form id="rsvpForm" class="rsvp-form" action="https://script.google.com/macros/s/AKfycbxSDNtzPyI_OASopMm3sfMNAjoAFYFSrxiiOaNoEN4j_fGDUvko7lI8VQa9SvDWVVYE/exec" method="POST" target="rsvp_target_frame">
+                
+
+
+                <div class="fg">
+                    <label for="guestName">Full Name(s) *</label>
+                    <input type="text" id="guestName" name="Guest Name" required placeholder="e.g. Lord & Lady Sterling">
+                </div>
+                <div class="fg-row">
+                    <div class="fg">
+                        <label for="guestEmail">Email *</label>
+                        <input type="email" id="guestEmail" name="Email" required placeholder="your@email.com">
+                    </div>
+                    <div class="fg">
+                        <label for="guestPhone">Phone</label>
+                        <input type="tel" id="guestPhone" name="Phone" placeholder="+1 (555) 000-0000">
+                    </div>
+                </div>
+                <div class="fg">
+                    <label>Attendance *</label>
+                    <div class="radio-grid">
+                        <label class="rc">
+                            <input type="radio" name="Attendance" value="attending" checked>
+                            <div class="rc-inner">
+                                <span class="rc-icon">🥂</span>
+                                <span class="rc-title">Joyfully Accept</span>
+                                <span class="rc-sub">I will be attending</span>
+                            </div>
+                        </label>
+                        <label class="rc">
+                            <input type="radio" name="Attendance" value="declining">
+                            <div class="rc-inner">
+                                <span class="rc-icon">💌</span>
+                                <span class="rc-title">Regretfully Decline</span>
+                                <span class="rc-sub">Sending love from afar</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="fg-row">
+                    <div class="fg">
+                        <label for="guestCount">Guests</label>
+                        <select id="guestCount" name="Guest Count">
+                            <option value="1">1 — Just Me</option>
+                            <option value="2" selected>2 — Me + One</option>
+                            <option value="3">3 — Family</option>
+                            <option value="4">4 — Family</option>
+                        </select>
+                    </div>
+                    <div class="fg">
+                        <label for="dietary">Dietary</label>
+                        <select id="dietary" name="Dietary Restrictions">
+                            <option value="none">No Restrictions</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="gluten-free">Gluten Free</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="fg">
+                    <label for="songRequest">🎵 Song Request</label>
+                    <input type="text" id="songRequest" name="Song Request" placeholder="e.g. Can't Help Falling in Love">
+                </div>
+                <div class="fg">
+                    <label for="blessingMessage">💖 Blessing for the Couple</label>
+                    <textarea id="blessingMessage" name="Blessing Message" rows="3" placeholder="Share your warm wishes..."></textarea>
+                </div>
+                <button type="submit" class="btn-gold btn-block">✦ Send RSVP Confirmation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="mapModal" class="modal-overlay">
+        <div class="modal-box map-modal-box">
+            <button class="modal-close" id="closeMapBtn">&times;</button>
+            <div class="modal-head">
+                <span class="modal-sub">Highland Estate Grounds</span>
+                <h3 class="modal-title">Venue Map</h3>
+                <div class="modal-rule"></div>
+            </div>
+            <div class="map-box">
+                <div class="map-pt pt-ceremony"><span>⛪</span><span>Sanctuary</span></div>
+                <div class="map-pt pt-ballroom"><span>🏰</span><span>Ballroom</span></div>
+                <div class="map-pt pt-arbor"><span>🌹</span><span>Rose Arbor</span></div>
+                <div class="map-pt pt-lawn"><span>✨</span><span>Terrace</span></div>
+            </div>
+            <div class="map-footer">
+                <p>📍 Turn onto Highland Estate Drive from Hwy 101. Valet at the main gate.</p>
+                <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn-outline btn-sm">Open in Google Maps ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
