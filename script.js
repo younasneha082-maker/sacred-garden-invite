@@ -13,7 +13,7 @@
   const mainContentEl = document.getElementById('mainContent');
 
   const stage0El  = document.getElementById('stage0');
-  const stage1El  = document.getElementById('stage1');
+  //const stage1El  = document.getElementById('stage1');
   const stage2El  = document.getElementById('stage2');
   const stage3El  = document.getElementById('stage3');
   const envScene  = document.getElementById('envScene');
@@ -22,7 +22,7 @@
   const enterBtn  = document.getElementById('enterMainBtn');
   const waxCracks = document.getElementById('waxCracks');
   const openCanvas= document.getElementById('openingCanvas');
-  const openCtx   = openCanvas.getContext('2d');
+  const openCtx   = openCanvas ? openCanvas.getContext('2d') : null;
 
   let currentStage = 0;
   let openingParticles = [];
@@ -30,11 +30,14 @@
 
   // Resize opening canvas
   function resizeOpenCanvas() {
+    if (!openCanvas) return;
     openCanvas.width  = window.innerWidth;
     openCanvas.height = window.innerHeight;
   }
-  resizeOpenCanvas();
-  window.addEventListener('resize', resizeOpenCanvas);
+  if (openCanvas) {
+    resizeOpenCanvas();
+    window.addEventListener('resize', resizeOpenCanvas);
+  }
 
   // Particle engine for opening
   class OpenParticle {
@@ -101,23 +104,17 @@
     currentStage = n;
   }
 
-  // ── Stage 0 → Stage 1 (on first touch/click) ──────────────────
-  function stage0ToStage1() {
-    // Play a chime on user gesture
-    playChime();
+  // ── Stage 1 → Main Invitation (on touch/click of Sacred Garden intro) ──
+  const stage1El = document.getElementById('stage1');
+  const stage1TapPrompt = document.getElementById('stage1TapPrompt');
 
-    showStage(1);
-
-    // After 3s of the dramatic garden reveal, move to stage 2
-    setTimeout(() => {
-      showStage(2);
-    }, 3200);
-  }
-
-  stage0El.addEventListener('click', stage0ToStage1);
-  stage0El.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    stage0ToStage1();
+  [cinematicEl, stage1El, stage1TapPrompt].forEach(el => {
+    if (!el) return;
+    el.addEventListener('click', revealMainContent);
+    el.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      revealMainContent();
+    });
   });
 
   // ── Wax Seal: Stage 2 → Stage 3 ──────────────────────────────
@@ -145,11 +142,13 @@
     }, 900);
   }
 
-  waxBtn.addEventListener('click', breakWaxSeal);
-  waxBtn.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    breakWaxSeal(e);
-  });
+  if (waxBtn) {
+    waxBtn.addEventListener('click', breakWaxSeal);
+    waxBtn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      breakWaxSeal(e);
+    });
+  }
 
   // Seal explosion particles
 
@@ -213,29 +212,43 @@
     });
   }
 
+  let isRevealed = false;
   function revealMainContent() {
-    cinematicEl.classList.add('fade-out');
-    mainContentEl.classList.remove('is-hidden');
-    mainContentEl.style.opacity = '0';
+    if (isRevealed) return;
+    isRevealed = true;
 
-    cancelAnimationFrame(openingAnimId);
+    try { playChime(); } catch (_) {}
+
+    if (cinematicEl) {
+      cinematicEl.classList.add('fade-out');
+    }
+
+    if (mainContentEl) {
+      mainContentEl.classList.remove('is-hidden');
+      mainContentEl.style.transition = 'opacity 1s ease';
+      mainContentEl.style.opacity = '1';
+    }
+
+    if (openingAnimId) {
+      cancelAnimationFrame(openingAnimId);
+    }
 
     // Start main particle canvas
     initMainParticles();
     renderMainParticles();
 
-    setTimeout(() => {
-      mainContentEl.style.transition = 'opacity 1.2s ease';
-      mainContentEl.style.opacity    = '1';
-      triggerScrollReveals();
-      playBgMusic();
+    triggerScrollReveals();
+    try { playBgMusic(); } catch (_) {}
 
-      // Remove opening after transition
-      setTimeout(() => {
+    // Remove opening after transition
+    setTimeout(() => {
+      if (cinematicEl) {
         cinematicEl.style.display = 'none';
-      }, 1400);
-    }, 50);
+      }
+    }, 1200);
   }
+
+  window.revealMainContent = revealMainContent;
 
   /* ────────────────────────────────────────────────────────────────
      WEB AUDIO — SOUND FX
@@ -588,6 +601,35 @@
     });
   }
 
+  const sectionRsvpForm = document.getElementById('sectionRsvpForm');
+  if (sectionRsvpForm) {
+    sectionRsvpForm.addEventListener('submit', () => {
+      const name = document.getElementById('secGuestName')?.value || 'Guest';
+      triggerConfetti();
+      showToast(`✨ Thank you, ${name}! Your RSVP has been sent.`);
+      setTimeout(() => {
+        sectionRsvpForm.reset();
+      }, 1600);
+    });
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     WEDDING FAQ ACCORDION LOGIC
+  ──────────────────────────────────────────────────────────────── */
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach((item, index) => {
+    if (index === 0) item.classList.add('active');
+
+    const btn = item.querySelector('.faq-question');
+    btn?.addEventListener('click', () => {
+      const isOpen = item.classList.contains('active');
+      faqItems.forEach(i => i.classList.remove('active'));
+      if (!isOpen) {
+        item.classList.add('active');
+      }
+    });
+  });
+
   /* ────────────────────────────────────────────────────────────────
      CONFETTI
   ──────────────────────────────────────────────────────────────── */
@@ -655,8 +697,12 @@
   }
 
   /* ────────────────────────────────────────────────────────────────
-     ADD TO CALENDAR
+     MAP PREVIEW & CALENDAR
   ──────────────────────────────────────────────────────────────── */
+  document.getElementById('vmpMapFrame')?.addEventListener('click', () => {
+    window.open('https://maps.google.com/?q=The+Glasshouse+Estate+Highland+Estate+CA', '_blank', 'noopener,noreferrer');
+  });
+
   document.getElementById('addToCalBtn')?.addEventListener('click', () => {
     const title  = encodeURIComponent("Wedding of Eleanor & Alexander");
     const details= encodeURIComponent("You are cordially invited to The Sacred Garden wedding celebration.");
@@ -683,10 +729,129 @@
   }
 
   /* ────────────────────────────────────────────────────────────────
-     BOOT: Start opening experience
+     SCRATCH CARD DATE REVEAL LOGIC
+  ──────────────────────────────────────────────────────────────── */
+  function initScratchCards() {
+    const tiles = document.querySelectorAll('.scratch-tile');
+    const fullDateEl = document.getElementById('scratchFullDate');
+    let isFullyRevealed = false;
+
+    if (!tiles.length) return;
+
+    function revealAllDateTiles() {
+      if (isFullyRevealed) return;
+      isFullyRevealed = true;
+
+      try { playChime(); } catch (_) {}
+
+      // Add ease reveal fade class to all canvases
+      document.querySelectorAll('.scratch-canvas').forEach(canvas => {
+        canvas.classList.add('revealed-fade');
+      });
+
+      if (fullDateEl) {
+        fullDateEl.classList.add('is-visible');
+      }
+
+      try { triggerConfetti(); } catch (_) {}
+    }
+
+    tiles.forEach(tile => {
+      const canvas = tile.querySelector('.scratch-canvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Draw metallic gold foil layer
+      function drawFoil() {
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-over';
+
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, '#BF953F');
+        grad.addColorStop(0.3, '#FCF6BA');
+        grad.addColorStop(0.6, '#B38728');
+        grad.addColorStop(0.8, '#FBF5B7');
+        grad.addColorStop(1, '#AA7C11');
+
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Add subtle gold pattern / text
+        ctx.fillStyle = 'rgba(100, 70, 10, 0.45)';
+        ctx.font = '600 11px Cinzel, Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('✦ SCRATCH ✦', w / 2, h / 2);
+
+        ctx.restore();
+      }
+
+      drawFoil();
+
+      let isDrawing = false;
+      let scratchStrokes = 0;
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (w / rect.width),
+          y: (clientY - rect.top) * (h / rect.height)
+        };
+      }
+
+      function scratch(e) {
+        if (!isDrawing || isFullyRevealed) return;
+
+        const pos = getPos(e);
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 18, 0, Math.PI * 2);
+        ctx.fill();
+
+        scratchStrokes++;
+
+        // Scratching a little bit triggers the smooth ease reveal fade!
+        if (scratchStrokes >= 3) {
+          revealAllDateTiles();
+        }
+      }
+
+      function startScratch(e) {
+        isDrawing = true;
+        scratch(e);
+      }
+
+      function stopScratch() {
+        isDrawing = false;
+      }
+
+      // Mouse events
+      canvas.addEventListener('mousedown', startScratch);
+      canvas.addEventListener('mousemove', scratch);
+      window.addEventListener('mouseup', stopScratch);
+
+      // Touch events for mobile
+      canvas.addEventListener('touchstart', startScratch, { passive: true });
+      canvas.addEventListener('touchmove', scratch, { passive: true });
+      canvas.addEventListener('touchend', stopScratch);
+
+      // Tapping directly on canvas also reveals
+      canvas.addEventListener('click', revealAllDateTiles);
+    });
+  }
+
+  initScratchCards();
+
+  /* ────────────────────────────────────────────────────────────────
+     BOOT: Start directly on Stage 1 ("The Sacred Garden") page
   ──────────────────────────────────────────────────────────────── */
   initOpenParticles(45);
   renderOpenParticles();
-  showStage(0);
+  showStage(1);
 
 })();
