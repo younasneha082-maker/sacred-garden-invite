@@ -703,11 +703,13 @@
     window.open('https://maps.google.com/?q=The+Glasshouse+Estate+Highland+Estate+CA', '_blank', 'noopener,noreferrer');
   });
 
-  document.getElementById('addToCalBtn')?.addEventListener('click', () => {
-    const title  = encodeURIComponent("Wedding of Eleanor & Alexander");
-    const details= encodeURIComponent("You are cordially invited to The Sacred Garden wedding celebration.");
-    const loc    = encodeURIComponent("The Glasshouse Estate, 774 Emerald Valley Road, Highland Estate, CA 90210");
-    window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261024T160000Z/20261024T230000Z&details=${details}&location=${loc}`, '_blank');
+  ['addToCalBtn', 'saveDateBtn'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => {
+      const title  = encodeURIComponent("Wedding of Eleanor & Alexander");
+      const details= encodeURIComponent("You are cordially invited to The Sacred Garden wedding celebration.");
+      const loc    = encodeURIComponent("The Glasshouse Estate, 774 Emerald Valley Road, Highland Estate, CA 90210");
+      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261024T160000Z/20261024T230000Z&details=${details}&location=${loc}`, '_blank');
+    });
   });
 
   /* ────────────────────────────────────────────────────────────────

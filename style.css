@@ -154,7 +154,7 @@ img { display:block; max-width:100%; }
 }
 .s1-title {
   font-family:var(--ff-deco);
-  font-size:clamp(2.6rem, 9vw, 6rem);
+  font-size:clamp(2.9rem, 10vw, 6.5rem);
   line-height:1.1; font-weight:400;
   background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
   animation:fadeSlideUp 1s 0.7s both;
@@ -166,7 +166,7 @@ img { display:block; max-width:100%; }
 }
 @keyframes growLine { from { width:0; opacity:0; } to { width:80px; opacity:1; } }
 .s1-sub {
-  font-family:var(--ff-head); font-size:0.9rem; letter-spacing:5px;
+  font-family:var(--ff-head); font-size:0.75rem; letter-spacing:4px;
   text-transform:uppercase; color:var(--gold-l);
   animation:fadeSlideUp 1s 1.2s both;
 }
@@ -780,29 +780,33 @@ letter-spacing:5px;
   display:flex; flex-direction:column; align-items:center; gap:28px;
 }
 .hero-badge {
-  display:inline-flex; align-items:center; gap:10px;
-  padding:6px 18px; border-radius:30px;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:5px 14px; border-radius:30px;
   background:rgba(212,175,55,0.1); border:var(--gold-border);
-  font-family:var(--ff-head); font-size:0.75rem;
-  letter-spacing:3px; text-transform:uppercase; color:var(--gold-l);
+  font-family:var(--ff-head); font-size:0.65rem;
+  letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-l);
 }
 .hero-title {
   display:flex; flex-direction:column; align-items:center; gap:6px;
 }
 .ht-name {
   font-family:var(--ff-deco);
-  font-size:clamp(1.5rem, 5.5vw, 4.2rem);
+  font-size:clamp(1.8rem, 6.5vw, 4.8rem);
   font-weight:700; line-height:1.08;
   background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
 }
 .ht-amp {
   font-family:var(--ff-serif); font-style:italic;
-  font-size:clamp(1.1rem, 3.5vw, 2rem); color:var(--gold-l);
+  font-size:clamp(1.2rem, 3.8vw, 2.2rem); color:var(--gold-l);
 }
 .hero-tagline {
   font-family:var(--ff-serif); font-style:italic;
   font-size:clamp(1rem, 3vw, 1.35rem);
   color:var(--text); max-width:600px; line-height:1.7;
+}
+.hero-scratch-btns {
+  display:flex; align-items:center; justify-content:center;
+  gap:14px; margin-top:22px; flex-wrap:wrap;
 }
 /* ── Scratch Date Card ───────────────────────────────────────── */
 .scratch-card-box {
@@ -1692,11 +1696,11 @@ input:focus, select:focus, textarea:focus {
 /* ── Extra breakpoints ───────────────────────────────────────── */
 @media (max-width:600px) {
   .ht-name {
-    font-size: clamp(1.35rem, 5.2vw, 2.2rem);
+    font-size: clamp(1.5rem, 5.8vw, 2.5rem);
     letter-spacing: 0.5px;
   }
   .ht-amp {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     margin: 2px 0;
   }
 }
