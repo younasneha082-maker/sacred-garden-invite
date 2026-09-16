@@ -527,29 +527,7 @@
     });
   }
 
-  /* ────────────────────────────────────────────────────────────────
-     DRESS CODE SWATCHES
-  ──────────────────────────────────────────────────────────────── */
-  const swatchCards  = document.querySelectorAll('.swatch');
-  const swatchTitle  = document.getElementById('swatchTitle');
-  const swatchDesc   = document.getElementById('swatchDesc');
 
-  const swatchData = {
-    emerald: { title: 'Deep Emerald Inspiration', desc: 'Floor-length velvet evening gowns, dark jewel-toned tuxedos, or emerald lapel pins and silk pocket squares.' },
-    gold:    { title: 'Champagne Gold Accents',   desc: 'Metallic gold embroidery, shimmering sequin gowns, champagne ties, and golden jewellery accents.' },
-    rose:    { title: 'Vintage Rose Elegance',    desc: 'Soft rose velvet gowns, dusty rose boutonnières, or subtle blush ties under crisp dark suits.' },
-    midnight:{ title: 'Midnight Velvet Classic',  desc: 'Classic midnight blue black-tie tuxedos, crisp white shirts, polished patent leather shoes and silk bowties.' }
-  };
-
-  swatchCards.forEach(card => {
-    card.addEventListener('click', () => {
-      swatchCards.forEach(c => c.classList.remove('active'));
-      card.classList.add('active');
-      const k = card.dataset.color;
-      if (swatchTitle && swatchData[k]) swatchTitle.textContent = swatchData[k].title;
-      if (swatchDesc  && swatchData[k]) swatchDesc.textContent  = swatchData[k].desc;
-    });
-  });
 
   /* ────────────────────────────────────────────────────────────────
      MODALS
@@ -576,40 +554,51 @@
     if (m) m.addEventListener('click', e => { if (e.target === m) closeModal(m); });
   });
 
-  /* ── RSVP Form Submit ── */
+  /* ── RSVP Form Submit (Modal) ── */
   const rsvpForm = document.getElementById('rsvpForm');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', () => {
-      const name        = document.getElementById('guestName')?.value || 'Guest';
-      console.log('🔹 RSVP submit triggered for', name);
-      const blessing    = document.getElementById('blessingMessage')?.value || '';
-      const attending   = document.querySelector('input[name="Attendance"]:checked')?.value || 'attending';
-
-      // Submit happens natively in the background to target="rsvp_target_frame"
-
+      const name = document.getElementById('guestName')?.value || 'Guest';
       triggerConfetti();
       showToast(`✨ Thank you, ${name}! Your RSVP has been sent.`);
 
-      if (blessing.trim()) {
-        appendWish(name, blessing, attending === 'attending' ? 'Attending ✦' : 'Sending Love 💌');
+      // Replace form with Thank You card (prevents re-submission until page reload)
+      const container = rsvpForm.parentElement;
+      if (container) {
+        container.innerHTML = `
+          <div class="rsvp-thank-you-box">
+            <div class="ty-icon">🥂</div>
+            <h3>Thank You, ${name}!</h3>
+            <p class="ty-msg">Your RSVP response has been received. We look forward to celebrating together in The Sacred Garden!</p>
+            <div class="ty-ornament">❖ ✦ ❖</div>
+            <p class="ty-sub">To submit a new response, please reload the page.</p>
+          </div>
+        `;
       }
-
-      setTimeout(() => {
-        rsvpForm.reset();
-        closeModal(rsvpModal);
-      }, 1600);
     });
   }
 
+  /* ── Dedicated Inline RSVP Section Form ── */
   const sectionRsvpForm = document.getElementById('sectionRsvpForm');
   if (sectionRsvpForm) {
     sectionRsvpForm.addEventListener('submit', () => {
       const name = document.getElementById('secGuestName')?.value || 'Guest';
       triggerConfetti();
       showToast(`✨ Thank you, ${name}! Your RSVP has been sent.`);
-      setTimeout(() => {
-        sectionRsvpForm.reset();
-      }, 1600);
+
+      // Replace form with Thank You card (prevents re-submission until page reload)
+      const cardBox = sectionRsvpForm.closest('.rsvp-card-box');
+      if (cardBox) {
+        cardBox.innerHTML = `
+          <div class="rsvp-thank-you-box">
+            <div class="ty-icon">🥂</div>
+            <h3>Thank You, ${name}!</h3>
+            <p class="ty-msg">Your RSVP response has been received. We look forward to celebrating together in The Sacred Garden!</p>
+            <div class="ty-ornament">❖ ✦ ❖</div>
+            <p class="ty-sub">To submit a new response, please reload the page.</p>
+          </div>
+        `;
+      }
     });
   }
 

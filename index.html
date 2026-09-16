@@ -238,7 +238,7 @@
                         <div class="scratch-tile" data-tile="0">
                             <div class="scratch-revealed-val">
                                 <span class="stv-sub">Month</span>
-                                <span class="stv-main">OCTOBER</span>
+                                <span class="stv-main">OCT</span>
                             </div>
                             <canvas class="scratch-canvas" width="110" height="96"></canvas>
                         </div>
@@ -327,8 +327,9 @@
                     </div>
                 </div>
             </div>
-            <!-- Countdown moved to end of Our Story -->
-            <div class="countdown-wrap story-countdown" data-reveal>
+            <!-- Prominent Countdown Feature Card -->
+            <div class="countdown-card-box" data-reveal>
+                <div class="cd-ornament">— ✦ ❖ ✦ —</div>
                 <span class="cd-header">Counting Down To Our Forever</span>
                 <div class="cd-grid">
                     <div class="cd-box"><span class="cd-num" id="daysNum">00</span><span class="cd-lbl">Days</span></div>
@@ -392,44 +393,53 @@
                     <div class="sec-orn">❖</div>
                 </div>
                 <div class="venue-layout" data-reveal>
-                    <div class="venue-img-wrap">
-                        <img src="./assets/venue_photo.png" alt="Glasshouse Estate" class="venue-img">
-                        <div class="venue-badge">Luxury Estate &amp; Gardens</div>
+                    <!-- Google Maps Embed Box (Replaces static image) -->
+                    <div class="venue-map-box">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=774+Emerald+Valley+Road,+Highland+Estate,+CA+90210&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                        <div class="venue-map-badge">🗺️ Google Maps Location</div>
                     </div>
+
                     <div class="venue-info">
                         <h3>Glasshouse Estate &amp; Gardens</h3>
-                        <p class="venue-addr">774 Emerald Valley Road, Highland Estate, CA 90210</p>
-                        <p class="venue-desc">Nestled amidst rolling hills and ancient pine groves, The Glasshouse Estate features 19th-century wrought-iron glasshouses, cascading water fountains, and rare botanical blooms from six continents.</p>
-                        <div class="venue-chips">
-                            <span class="chip">🚗 Valet Parking</span>
-                            <span class="chip">🏨 Private Suites</span>
-                            <span class="chip">🍷 Sommelier Bar</span>
-                        </div>
-
-                        <!-- Small Google Map Preview Card -->
-                        <div class="venue-map-preview-box">
-                            <div class="vmp-header">
-                                <span class="vmp-label">🗺️ Google Map Location Preview</span>
-                                <a href="https://maps.google.com/?q=The+Glasshouse+Estate+Highland+Estate+CA" target="_blank" rel="noopener" class="vmp-direct-link">Open in Google Maps ↗</a>
+                        <p class="venue-addr">📍 774 Emerald Valley Road, Highland Estate, CA 90210</p>
+                        
+                        <!-- Clean Key Details & Amenities -->
+                        <div class="venue-amenities">
+                            <div class="amenity-item">
+                                <span class="am-icon">🚗</span>
+                                <div>
+                                    <strong>Complimentary Valet Parking</strong>
+                                    <span>Available at the main gate for all attending guests</span>
+                                </div>
                             </div>
-                            <div class="vmp-map-frame" id="vmpMapFrame" title="Click to open Google Maps">
-                                <div class="vmp-map-bg"></div>
-                                <div class="vmp-pin">
-                                    <div class="vmp-pin-pulse"></div>
-                                    <span class="vmp-pin-icon">📍</span>
-                                    <div class="vmp-pin-card">
-                                        <strong>Glasshouse Estate &amp; Gardens</strong>
-                                        <span>774 Emerald Valley Rd, CA</span>
-                                    </div>
+                            <div class="amenity-item">
+                                <span class="am-icon">🏨</span>
+                                <div>
+                                    <strong>Accommodation &amp; Suites</strong>
+                                    <span>Private guest suites &amp; villas on estate grounds</span>
+                                </div>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="am-icon">🍷</span>
+                                <div>
+                                    <strong>Sommelier Bar &amp; Lounge</strong>
+                                    <span>Welcome floral elixirs &amp; botanical pairings</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="venue-btns">
-                            <button class="btn-gold" id="openMapBtn">
+                            <a href="https://maps.google.com/?q=The+Glasshouse+Estate+Highland+Estate+CA" target="_blank" rel="noopener" class="btn-gold">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                View Interactive Grounds Map
-                            </button>
+                                Open Directions in Google Maps ↗
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -451,38 +461,14 @@
                         <div class="attire-icon">🤵</div>
                         <span class="attire-label">Gentlemen</span>
                         <h3 class="attire-val">Formal / Black Tie</h3>
+                        <p class="attire-info">Formal tuxedos, dark tailored suits, black bowties or ties, and polished dress shoes. Dark jewel-toned accents welcomed.</p>
                     </div>
                     <div class="attire-card">
                         <div class="attire-icon">💃</div>
                         <span class="attire-label">Ladies</span>
                         <h3 class="attire-val">Elegant Evening Wear</h3>
+                        <p class="attire-info">Floor-length evening gowns, refined cocktail dresses, or elegant dressy separates in deep emerald, gold, or jewel tones.</p>
                     </div>
-                </div>
-                <div class="swatches" data-reveal>
-                    <div class="swatch active" data-color="emerald">
-                        <div class="swatch-dot" style="background:linear-gradient(135deg,#093829,#135A43)"></div>
-                        <span class="swatch-name">Deep Emerald</span>
-                        <span class="swatch-hex">#135A43</span>
-                    </div>
-                    <div class="swatch" data-color="gold">
-                        <div class="swatch-dot" style="background:linear-gradient(135deg,#D4AF37,#AA7C11)"></div>
-                        <span class="swatch-name">Champagne Gold</span>
-                        <span class="swatch-hex">#D4AF37</span>
-                    </div>
-                    <div class="swatch" data-color="rose">
-                        <div class="swatch-dot" style="background:linear-gradient(135deg,#7A2E3B,#9E4554)"></div>
-                        <span class="swatch-name">Vintage Rose</span>
-                        <span class="swatch-hex">#7A2E3B</span>
-                    </div>
-                    <div class="swatch" data-color="midnight">
-                        <div class="swatch-dot" style="background:linear-gradient(135deg,#101625,#1B263B)"></div>
-                        <span class="swatch-name">Midnight Velvet</span>
-                        <span class="swatch-hex">#1B263B</span>
-                    </div>
-                </div>
-                <div class="swatch-preview" id="swatchPreview" data-reveal>
-                    <h4 id="swatchTitle">Deep Emerald Inspiration</h4>
-                    <p id="swatchDesc">Floor-length velvet evening gowns, dark jewel-toned tuxedos, or emerald lapel pins and silk pocket squares.</p>
                 </div>
             </section>
         </div>
