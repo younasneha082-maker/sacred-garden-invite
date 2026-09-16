@@ -429,43 +429,30 @@
     }).catch(() => {});
   }
 
+  // Auto-play music on any user interaction or load
+  ['click', 'touchstart', 'keydown', 'scroll', 'pointerdown'].forEach(evt => {
+    window.addEventListener(evt, function autoPlayOnce() {
+      playBgMusic();
+      window.removeEventListener(evt, autoPlayOnce);
+    }, { once: true });
+  });
+
+  // Also attempt immediate play on page load
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    playBgMusic();
+  } else {
+    window.addEventListener('DOMContentLoaded', playBgMusic);
+  }
+
   if (audioBtn) {
     audioBtn.addEventListener('click', () => {
       if (!bgAudio) return;
       if (bgAudio.paused) {
-        bgAudio.play();
-        audioBtn.classList.add('playing');
+        playBgMusic();
       } else {
         bgAudio.pause();
         audioBtn.classList.remove('playing');
       }
-    });
-  }
-
-  // Replay button
-  const replayBtn = document.getElementById('replayInviteBtn');
-  if (replayBtn) {
-    replayBtn.addEventListener('click', () => {
-      // Reset and show opening again
-      cinematicEl.style.display = '';
-      cinematicEl.classList.remove('fade-out');
-      mainContentEl.classList.add('is-hidden');
-      mainContentEl.style.opacity = '';
-      mainContentEl.style.transition = '';
-
-      waxBtn.classList.remove('breaking');
-      if (tapHint) { tapHint.style.opacity = '1'; }
-
-      showStage(0);
-      cancelAnimationFrame(mainAnimId);
-
-      if (bgAudio) { bgAudio.pause(); bgAudio.currentTime = 0; }
-      if (audioBtn) audioBtn.classList.remove('playing');
-
-      // restart opening particles
-      initOpenParticles(45);
-      cancelAnimationFrame(openingAnimId);
-      renderOpenParticles();
     });
   }
 
@@ -769,14 +756,6 @@
 
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
-
-        // Add subtle gold pattern / text
-        ctx.fillStyle = 'rgba(100, 70, 10, 0.45)';
-        ctx.font = '600 11px Cinzel, Georgia, serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('✦ SCRATCH ✦', w / 2, h / 2);
-
         ctx.restore();
       }
 
