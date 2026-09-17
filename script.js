@@ -745,20 +745,29 @@
       const w = canvas.width;
       const h = canvas.height;
 
-      // Draw metallic gold foil layer
+      // Draw metallic gold foil layer using user's custom gold gradient
       function drawFoil() {
         ctx.save();
         ctx.globalCompositeOperation = 'source-over';
 
-        const grad = ctx.createLinearGradient(0, 0, w, h);
-        grad.addColorStop(0, '#BF953F');
-        grad.addColorStop(0.3, '#FCF6BA');
-        grad.addColorStop(0.6, '#B38728');
-        grad.addColorStop(0.8, '#FBF5B7');
-        grad.addColorStop(1, '#AA7C11');
+        const grad = ctx.createLinearGradient(0, h, w, 0);
+        grad.addColorStop(0.0, '#FFF993');
+        grad.addColorStop(0.35, '#E6B828');
+        grad.addColorStop(0.70, '#B37D0E');
+        grad.addColorStop(1.0, '#784300');
 
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
+
+        const foilImg = new Image();
+        foilImg.src = './assets/gold_scratch_gradient.png';
+        foilImg.onload = () => {
+          ctx.save();
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.drawImage(foilImg, 0, 0, w, h);
+          ctx.restore();
+        };
+
         ctx.restore();
       }
 
