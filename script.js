@@ -431,10 +431,11 @@
   const bgAudio  = document.getElementById('bgAudio');
   const audioBtn = document.getElementById('audioToggleBtn');
   let audioUnlocked = false;
+  let userManuallyPaused = false;
 
   function playBgMusic() {
-    if (!bgAudio) return;
-    initAudio();
+    if (!bgAudio || userManuallyPaused) return;
+    try { initAudio(); } catch (_) {}
     bgAudio.volume = 0.55;
     if (bgAudio.paused) {
       const promise = bgAudio.play();
@@ -442,15 +443,31 @@
         promise.then(() => {
           audioUnlocked = true;
           if (audioBtn) audioBtn.classList.add('playing');
-        }).catch(() => {});
+        }).catch((err) => {
+          console.warn("Audio playback deferred:", err);
+        });
       }
     }
   }
 
+  if (bgAudio) {
+    bgAudio.addEventListener('play', () => {
+      audioUnlocked = true;
+      if (audioBtn) audioBtn.classList.add('playing');
+    });
+    bgAudio.addEventListener('playing', () => {
+      audioUnlocked = true;
+      if (audioBtn) audioBtn.classList.add('playing');
+    });
+    bgAudio.addEventListener('pause', () => {
+      if (audioBtn) audioBtn.classList.remove('playing');
+    });
+  }
+
   // Universal user-interaction listener to unlock audio on first user gesture
   function unlockMobileAudio() {
-    initAudio();
-    if (!audioUnlocked || (bgAudio && bgAudio.paused)) {
+    try { initAudio(); } catch (_) {}
+    if (!userManuallyPaused && (!audioUnlocked || (bgAudio && bgAudio.paused))) {
       playBgMusic();
     }
   }
@@ -462,13 +479,15 @@
   if (audioBtn) {
     audioBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      initAudio();
+      try { initAudio(); } catch (_) {}
       if (!bgAudio) return;
       if (bgAudio.paused) {
+        userManuallyPaused = false;
         playBgMusic();
       } else {
+        userManuallyPaused = true;
         bgAudio.pause();
-        audioBtn.classList.remove('playing');
+        if (audioBtn) audioBtn.classList.remove('playing');
       }
     });
   }
@@ -726,10 +745,8 @@
   /* ────────────────────────────────────────────────────────────────
      SCRATCH CARD DATE REVEAL LOGIC
   ──────────────────────────────────────────────────────────────── */
-  let scratchAudioTriggered = false;
   function triggerMusicOnScratch() {
-    if (!scratchAudioTriggered) {
-      scratchAudioTriggered = true;
+    if (!userManuallyPaused && bgAudio && bgAudio.paused) {
       try { playBgMusic(); } catch (_) {}
     }
   }
