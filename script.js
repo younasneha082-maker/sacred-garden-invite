@@ -238,7 +238,6 @@
     renderMainParticles();
 
     triggerScrollReveals();
-    try { playBgMusic(); } catch (_) {}
 
     // Remove opening after transition
     setTimeout(() => {
@@ -436,23 +435,7 @@
     }
   }
 
-  // Universal user-interaction listener to unlock mobile audio on very first tap/touch
-  function unlockMobileAudio() {
-    if (audioUnlocked) return;
-    playBgMusic();
-  }
-
-  ['touchstart', 'touchend', 'pointerdown', 'click', 'scroll'].forEach(evt => {
-    window.addEventListener(evt, unlockMobileAudio, { capture: true, passive: true });
-    document.addEventListener(evt, unlockMobileAudio, { capture: true, passive: true });
-  });
-
-  // Attempt immediate play on page load (desktop)
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    playBgMusic();
-  } else {
-    window.addEventListener('DOMContentLoaded', playBgMusic);
-  }
+  // Music playback is triggered strictly when user swipes/scratches the date card (or toggles button)
 
   if (audioBtn) {
     audioBtn.addEventListener('click', (e) => {
@@ -720,6 +703,14 @@
   /* ────────────────────────────────────────────────────────────────
      SCRATCH CARD DATE REVEAL LOGIC
   ──────────────────────────────────────────────────────────────── */
+  let scratchAudioTriggered = false;
+  function triggerMusicOnScratch() {
+    if (!scratchAudioTriggered) {
+      scratchAudioTriggered = true;
+      try { playBgMusic(); } catch (_) {}
+    }
+  }
+
   function initScratchCards() {
     const tiles = document.querySelectorAll('.scratch-tile');
     const fullDateEl = document.getElementById('scratchFullDate');
@@ -728,6 +719,7 @@
     if (!tiles.length) return;
 
     function revealAllDateTiles() {
+      triggerMusicOnScratch();
       if (isFullyRevealed) return;
       isFullyRevealed = true;
 
@@ -786,6 +778,7 @@
       }
 
       function scratch(e) {
+        triggerMusicOnScratch();
         if (!isDrawing || isFullyRevealed) return;
 
         const pos = getPos(e);
@@ -803,6 +796,7 @@
       }
 
       function startScratch(e) {
+        triggerMusicOnScratch();
         isDrawing = true;
         scratch(e);
       }
@@ -817,12 +811,21 @@
       window.addEventListener('mouseup', stopScratch);
 
       // Touch events for mobile
-      canvas.addEventListener('touchstart', startScratch, { passive: true });
-      canvas.addEventListener('touchmove', scratch, { passive: true });
+      canvas.addEventListener('touchstart', (e) => {
+        triggerMusicOnScratch();
+        startScratch(e);
+      }, { passive: true });
+      canvas.addEventListener('touchmove', (e) => {
+        triggerMusicOnScratch();
+        scratch(e);
+      }, { passive: true });
       canvas.addEventListener('touchend', stopScratch);
 
-      // Tapping directly on canvas also reveals
-      canvas.addEventListener('click', revealAllDateTiles);
+      // Tapping directly on canvas also reveals and starts music
+      canvas.addEventListener('click', () => {
+        triggerMusicOnScratch();
+        revealAllDateTiles();
+      });
     });
   }
 
