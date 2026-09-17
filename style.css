@@ -805,7 +805,7 @@ letter-spacing:5px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 110px 20px 90px;
+  padding: 45px 20px 60px;
   text-align: center;
   overflow: hidden;
   width: 100%;
@@ -815,7 +815,7 @@ letter-spacing:5px;
   inset: -20px;
   background-size: cover;
   background-position: center;
-  filter: brightness(0.55) contrast(1.1);
+  filter: brightness(0.35) contrast(1.15);
   transform: scale(1.04);
   transition: transform 12s ease-out;
 }
@@ -825,13 +825,13 @@ letter-spacing:5px;
   inset: 0;
   background: 
     linear-gradient(180deg, 
-      rgba(6, 15, 10, 0.5) 0%, 
-      rgba(6, 15, 10, 0.25) 30%, 
-      rgba(6, 15, 10, 0.35) 60%, 
-      rgba(6, 15, 10, 0.85) 85%, 
-      #060F0A 100%
+      rgba(4, 12, 8, 0.72) 0%, 
+      rgba(4, 12, 8, 0.45) 30%, 
+      rgba(4, 12, 8, 0.55) 60%, 
+      rgba(4, 12, 8, 0.90) 85%, 
+      #040C08 100%
     ),
-    radial-gradient(ellipse at center, transparent 30%, rgba(6, 15, 10, 0.8) 100%);
+    radial-gradient(ellipse at center, transparent 20%, rgba(4, 12, 8, 0.88) 100%);
   pointer-events: none;
 }
 .hero-inner {
