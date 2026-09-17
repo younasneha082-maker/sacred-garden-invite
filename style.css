@@ -157,7 +157,7 @@ img { display:block; max-width:100%; }
 }
 .s1-title {
   font-family:var(--ff-deco);
-  font-size:clamp(2.9rem, 10vw, 6.5rem);
+  font-size:clamp(2.1rem, 6.5vw, 4.2rem);
   line-height:1.1; font-weight:400;
   background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
   animation:fadeSlideUp 1s 0.7s both;
@@ -165,11 +165,11 @@ img { display:block; max-width:100%; }
 .s1-title em { font-style:italic; font-weight:700; }
 .s1-line {
   width:80px; height:1px; background:var(--gold);
-  margin:28px auto; animation:growLine 1.2s 1s both;
+  margin:24px auto; animation:growLine 1.2s 1s both;
 }
 @keyframes growLine { from { width:0; opacity:0; } to { width:80px; opacity:1; } }
 .s1-sub {
-  font-family:var(--ff-head); font-size:0.75rem; letter-spacing:4px;
+  font-family:var(--ff-head); font-size:clamp(0.95rem, 2.8vw, 1.35rem); letter-spacing:6px;
   text-transform:uppercase; color:var(--gold-l);
   animation:fadeSlideUp 1s 1.2s both;
 }
