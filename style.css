@@ -189,8 +189,19 @@ img { display:block; max-width:100%; }
   gap: 10px;
   z-index: 10;
   cursor: pointer;
-  animation: fadeSlideUp 1s 1.4s both;
+  animation: floatUpDown 2.4s ease-in-out infinite;
   text-align: center;
+}
+
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(-9px);
+    opacity: 1;
+  }
 }
 
 .stage1-tap-prompt span {
