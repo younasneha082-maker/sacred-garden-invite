@@ -151,18 +151,45 @@ img { display:block; max-width:100%; }
   text-align:center; padding:20px;
 }
 .s1-ornament {
-  font-family:var(--ff-head); font-size:1rem; color:var(--gold);
-  letter-spacing:8px; margin-bottom:20px;
-  animation:fadeSlideUp 1s 0.5s both;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  animation: fadeSlideUp 1s 0.5s both;
 }
+
+.orn-line {
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.orn-star {
+  font-family: var(--ff-head);
+  font-size: 1rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
 .s1-title {
-  font-family:var(--ff-deco);
-  font-size:clamp(2.1rem, 6.5vw, 4.2rem);
-  line-height:1.1; font-weight:400;
-  background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  animation:fadeSlideUp 1s 0.7s both;
+  font-family: var(--ff-deco);
+  font-size: clamp(2.1rem, 6.5vw, 4.2rem);
+  line-height: 1.25;
+  font-weight: 400;
+  letter-spacing: 6px;
+  background: var(--gold-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeSlideUp 1s 0.7s both;
 }
-.s1-title em { font-style:italic; font-weight:700; }
+
+.s1-title em {
+  display: block;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
 .s1-line {
   width:80px; height:1px; background:var(--gold);
   margin:24px auto; animation:growLine 1.2s 1s both;
