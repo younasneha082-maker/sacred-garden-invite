@@ -238,6 +238,7 @@
     renderMainParticles();
 
     triggerScrollReveals();
+    try { playBgMusic(); } catch (_) {}
 
     // Remove opening after transition
     setTimeout(() => {
@@ -435,7 +436,23 @@
     }
   }
 
-  // Music playback is triggered strictly when user swipes/scratches the date card (or toggles button)
+  // Universal user-interaction listener to unlock mobile audio on very first tap/touch/entry
+  function unlockMobileAudio() {
+    if (audioUnlocked) return;
+    playBgMusic();
+  }
+
+  ['touchstart', 'touchend', 'pointerdown', 'click', 'scroll'].forEach(evt => {
+    window.addEventListener(evt, unlockMobileAudio, { capture: true, passive: true });
+    document.addEventListener(evt, unlockMobileAudio, { capture: true, passive: true });
+  });
+
+  // Attempt immediate play on page load (desktop)
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    playBgMusic();
+  } else {
+    window.addEventListener('DOMContentLoaded', playBgMusic);
+  }
 
   if (audioBtn) {
     audioBtn.addEventListener('click', (e) => {
