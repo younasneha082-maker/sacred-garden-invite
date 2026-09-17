@@ -104,16 +104,24 @@
     currentStage = n;
   }
 
-  // ── Stage 1 → Main Invitation (on touch/click of Sacred Garden intro) ──
+  // ── Stage 1 → Main Invitation (on click, tap, or swipe up) ──
   const stage1El = document.getElementById('stage1');
   const stage1TapPrompt = document.getElementById('stage1TapPrompt');
+  let touchStartY = 0;
 
   [cinematicEl, stage1El, stage1TapPrompt].forEach(el => {
     if (!el) return;
     el.addEventListener('click', revealMainContent);
+    el.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
     el.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      revealMainContent();
+      const touchEndY = (e.changedTouches && e.changedTouches.length > 0) ? e.changedTouches[0].clientY : touchStartY;
+      if (touchStartY - touchEndY > 25 || Math.abs(touchStartY - touchEndY) < 15) {
+        revealMainContent();
+      }
     });
   });
 
