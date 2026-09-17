@@ -418,7 +418,7 @@
   /* ────────────────────────────────────────────────────────────────
      AUDIO ENGINE
   /* ────────────────────────────────────────────────────────────────
-     BACKGROUND AUDIO (MOBILE COMPATIBLE AUTO-UNLOCK)
+     BACKGROUND AUDIO (MOBILE COMPATIBLE USER GESTURE UNLOCK)
   ──────────────────────────────────────────────────────────────── */
   const bgAudio  = document.getElementById('bgAudio');
   const audioBtn = document.getElementById('audioToggleBtn');
@@ -426,37 +426,35 @@
 
   function playBgMusic() {
     if (!bgAudio) return;
+    initAudio();
     bgAudio.volume = 0.55;
-    const promise = bgAudio.play();
-    if (promise !== undefined) {
-      promise.then(() => {
-        audioUnlocked = true;
-        if (audioBtn) audioBtn.classList.add('playing');
-      }).catch(() => {});
+    if (bgAudio.paused) {
+      const promise = bgAudio.play();
+      if (promise !== undefined) {
+        promise.then(() => {
+          audioUnlocked = true;
+          if (audioBtn) audioBtn.classList.add('playing');
+        }).catch(() => {});
+      }
     }
   }
 
-  // Universal user-interaction listener to unlock mobile audio on very first tap/touch/entry
+  // Universal user-interaction listener to unlock audio on first user gesture
   function unlockMobileAudio() {
-    if (audioUnlocked) return;
-    playBgMusic();
+    initAudio();
+    if (!audioUnlocked || (bgAudio && bgAudio.paused)) {
+      playBgMusic();
+    }
   }
 
-  ['touchstart', 'touchend', 'pointerdown', 'click', 'scroll'].forEach(evt => {
+  ['pointerdown', 'touchstart', 'touchend', 'mousedown', 'click'].forEach(evt => {
     window.addEventListener(evt, unlockMobileAudio, { capture: true, passive: true });
-    document.addEventListener(evt, unlockMobileAudio, { capture: true, passive: true });
   });
-
-  // Attempt immediate play on page load (desktop)
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    playBgMusic();
-  } else {
-    window.addEventListener('DOMContentLoaded', playBgMusic);
-  }
 
   if (audioBtn) {
     audioBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+      initAudio();
       if (!bgAudio) return;
       if (bgAudio.paused) {
         playBgMusic();
