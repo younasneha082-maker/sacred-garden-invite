@@ -1,29 +1,25 @@
 /* =================================================================
-   THE SACRED GARDEN — COMPLETE JAVASCRIPT
-   Cinematic 3-Stage Opening + Full Interactivity + Mobile Support
+   THE SACRED GARDEN — LUXURY WEDDING INVITATION
+   Cinematic Opening + Full Interactivity + Mobile Support
    ================================================================= */
 
 (() => {
   'use strict';
 
   /* ────────────────────────────────────────────────────────────────
-     OPENING: STAGE MANAGER
+     1. CINEMATIC OPENING & STAGE MANAGER
   ──────────────────────────────────────────────────────────────── */
   const cinematicEl   = document.getElementById('cinematicOpening');
   const mainContentEl = document.getElementById('mainContent');
+  const stage1El      = document.getElementById('stage1');
+  const stage2El      = document.getElementById('stage2');
+  const stage3El      = document.getElementById('stage3');
+  const waxBtn        = document.getElementById('waxBtn');
+  const tapHint       = document.getElementById('tapHint');
+  const enterBtn      = document.getElementById('enterMainBtn');
+  const openCanvas    = document.getElementById('openingCanvas');
+  const openCtx       = openCanvas ? openCanvas.getContext('2d') : null;
 
-  const stage1El  = document.getElementById('stage1');
-  const stage2El  = document.getElementById('stage2');
-  const stage3El  = document.getElementById('stage3');
-  const envScene  = document.getElementById('envScene');
-  const waxBtn    = document.getElementById('waxBtn');
-  const tapHint   = document.getElementById('tapHint');
-  const enterBtn  = document.getElementById('enterMainBtn');
-  const waxCracks = document.getElementById('waxCracks');
-  const openCanvas= document.getElementById('openingCanvas');
-  const openCtx   = openCanvas ? openCanvas.getContext('2d') : null;
-
-  let currentStage = 0;
   let openingParticles = [];
   let openingAnimId;
 
@@ -38,12 +34,12 @@
     window.addEventListener('resize', resizeOpenCanvas);
   }
 
-  // Particle engine for opening
+  // Particle engine for opening intro
   class OpenParticle {
     constructor() { this.reset(true); }
     reset(initial = false) {
-      this.x  = Math.random() * openCanvas.width;
-      this.y  = initial ? Math.random() * openCanvas.height : openCanvas.height + 10;
+      this.x      = Math.random() * openCanvas.width;
+      this.y      = initial ? Math.random() * openCanvas.height : openCanvas.height + 10;
       this.size   = Math.random() * 2.5 + 0.5;
       this.speedY = -(Math.random() * 0.6 + 0.2);
       this.speedX = (Math.random() - 0.5) * 0.3;
@@ -81,10 +77,12 @@
   }
 
   function initOpenParticles(count = 45) {
+    if (!openCanvas) return;
     openingParticles = Array.from({ length: count }, () => new OpenParticle());
   }
 
   function renderOpenParticles() {
+    if (!openCtx) return;
     openCtx.clearRect(0, 0, openCanvas.width, openCanvas.height);
     openingParticles.forEach(p => { p.update(); p.draw(openCtx); });
     openingAnimId = requestAnimationFrame(renderOpenParticles);
@@ -100,10 +98,9 @@
         }
       }
     });
-    currentStage = n;
   }
 
-  // ── Stage 1 → Main Invitation (on click, tap, or swipe up) ──
+  // ── Stage 1 → Main Invitation Transition (on click, tap, or swipe up) ──
   const stage1TapPrompt = document.getElementById('stage1TapPrompt');
   let touchStartY = 0;
 
@@ -123,26 +120,21 @@
     });
   });
 
-  // ── Wax Seal: Stage 2 → Stage 3 ──────────────────────────────
+  // ── Wax Seal Break (Stage 2 → Stage 3) ──
   function breakWaxSeal(e) {
     e.stopPropagation();
-    if (waxBtn.classList.contains('breaking')) return;
+    if (waxBtn && waxBtn.classList.contains('breaking')) return;
 
     playWaxBreak();
+    if (waxBtn) waxBtn.classList.add('breaking');
 
-    // Crack animation
-    waxBtn.classList.add('breaking');
-
-    // Hide tap hint
     if (tapHint) {
       tapHint.style.opacity = '0';
       tapHint.style.transition = 'opacity 0.3s';
     }
 
-    // Explode particles from seal position
     spawnSealExplosion(e);
 
-    // After crack animation, move to stage 3
     setTimeout(() => {
       showStage(3);
     }, 900);
@@ -156,9 +148,8 @@
     });
   }
 
-  // Seal explosion particles
-
   function spawnSealExplosion(e) {
+    if (!openCtx || !waxBtn) return;
     const rect   = waxBtn.getBoundingClientRect();
     const cx     = rect.left + rect.width  / 2;
     const cy     = rect.top  + rect.height / 2;
@@ -209,7 +200,7 @@
     animateExplosion();
   }
 
-  // ── Enter Garden: Stage 3 → Main Content ─────────────────────
+  // ── Enter Garden Button ──
   if (enterBtn) {
     enterBtn.addEventListener('click', revealMainContent);
     enterBtn.addEventListener('touchend', (e) => {
@@ -239,14 +230,11 @@
       cancelAnimationFrame(openingAnimId);
     }
 
-    // Start main particle canvas
     initMainParticles();
     renderMainParticles();
-
     triggerScrollReveals();
     try { playBgMusic(); } catch (_) {}
 
-    // Remove opening after transition
     setTimeout(() => {
       if (cinematicEl) {
         cinematicEl.style.display = 'none';
@@ -257,7 +245,7 @@
   window.revealMainContent = revealMainContent;
 
   /* ────────────────────────────────────────────────────────────────
-     WEB AUDIO — SOUND FX
+     2. WEB AUDIO & SOUND EFFECTS
   ──────────────────────────────────────────────────────────────── */
   let audioCtx;
 
@@ -266,10 +254,11 @@
       const AC = window.AudioContext || window.webkitAudioContext;
       if (AC) audioCtx = new AC();
     }
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
   }
 
-  // Chime on stage 0 click
   function playChime() {
     try {
       initAudio();
@@ -291,14 +280,12 @@
     } catch (_) {}
   }
 
-  // Wax crack sound
   function playWaxBreak() {
     try {
       initAudio();
       if (!audioCtx) return;
       const t = audioCtx.currentTime;
 
-      // Noise crack burst
       const bufLen = Math.floor(audioCtx.sampleRate * 0.12);
       const buf    = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
       const data   = buf.getChannelData(0);
@@ -313,7 +300,6 @@
       noise.connect(bpf); bpf.connect(ng); ng.connect(audioCtx.destination);
       noise.start(t);
 
-      // Bell harmonics
       [349.23, 440.00, 523.25, 659.25].forEach((f, i) => {
         const o = audioCtx.createOscillator();
         const g = audioCtx.createGain();
@@ -327,12 +313,11 @@
   }
 
   /* ────────────────────────────────────────────────────────────────
-     MAIN CONTENT — PARTICLES
+     3. BACKGROUND FLOATING PARTICLES & CURSOR
   ──────────────────────────────────────────────────────────────── */
   const mainCanvas = document.getElementById('particleCanvas');
   const mCtx       = mainCanvas ? mainCanvas.getContext('2d') : null;
   let   mainParticles = [];
-  let   mainAnimId;
 
   let mouseX = window.innerWidth  / 2;
   let mouseY = window.innerHeight / 2;
@@ -402,15 +387,13 @@
     if (!mCtx) return;
     mCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
     mainParticles.forEach(p => { p.update(); p.draw(mCtx); });
-    mainAnimId = requestAnimationFrame(renderMainParticles);
+    requestAnimationFrame(renderMainParticles);
   }
 
-  /* ────────────────────────────────────────────────────────────────
-     CUSTOM CURSOR
-  ──────────────────────────────────────────────────────────────── */
+  // Custom Cursor
   const cursor         = document.getElementById('customCursor');
   const cursorFollower = document.getElementById('customCursorFollower');
-  let   fx = window.innerWidth / 2, fy = window.innerHeight / 2;
+  let fx = window.innerWidth / 2, fy = window.innerHeight / 2;
 
   function animateCursor() {
     fx += (mouseX - fx) * 0.14;
@@ -422,9 +405,7 @@
   animateCursor();
 
   /* ────────────────────────────────────────────────────────────────
-     AUDIO ENGINE
-  /* ────────────────────────────────────────────────────────────────
-     BACKGROUND AUDIO (MOBILE COMPATIBLE USER GESTURE UNLOCK)
+     4. BACKGROUND MUSIC ENGINE
   ──────────────────────────────────────────────────────────────── */
   const bgAudio  = document.getElementById('bgAudio');
   const audioBtn = document.getElementById('audioToggleBtn');
@@ -462,7 +443,6 @@
     });
   }
 
-  // Universal user-interaction listener to unlock audio on first user gesture
   function unlockMobileAudio() {
     try { initAudio(); } catch (_) {}
     if (!userManuallyPaused && (!audioUnlocked || (bgAudio && bgAudio.paused))) {
@@ -491,7 +471,7 @@
   }
 
   /* ────────────────────────────────────────────────────────────────
-     COUNTDOWN TIMER
+     5. COUNTDOWN TIMER
   ──────────────────────────────────────────────────────────────── */
   const WEDDING_DATE = new Date('October 24, 2026 16:00:00').getTime();
   const daysEl    = document.getElementById('daysNum');
@@ -516,7 +496,7 @@
   setInterval(updateCountdown, 1000);
 
   /* ────────────────────────────────────────────────────────────────
-     SCROLL REVEAL
+     6. SCROLL REVEAL ANIMATIONS
   ──────────────────────────────────────────────────────────────── */
   function triggerScrollReveals() {
     const els = document.querySelectorAll('[data-reveal]');
@@ -533,60 +513,33 @@
   }
 
   /* ────────────────────────────────────────────────────────────────
-     MOBILE NAV HAMBURGER
+     7. MODALS (RSVP & VENUE MAP)
   ──────────────────────────────────────────────────────────────── */
-  const hamburger = document.getElementById('navHamburger');
-  const navMenu   = document.getElementById('navMenu');
-
-  if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
-    });
-    // Close menu when link clicked
-    navMenu.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => navMenu.classList.remove('open'));
-    });
-  }
-
-
-
-  /* ────────────────────────────────────────────────────────────────
-     MODALS
-  ──────────────────────────────────────────────────────────────── */
-  const rsvpModal  = document.getElementById('rsvpModal');
-  const mapModal   = document.getElementById('mapModal');
+  const rsvpModal = document.getElementById('rsvpModal');
+  const mapModal  = document.getElementById('mapModal');
 
   function openModal(el)  { if (el) el.classList.add('active'); }
   function closeModal(el) { if (el) el.classList.remove('active'); }
 
-  // RSVP triggers
-  ['openRsvpBtnNav','openRsvpBtnHero','openWishBtn'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) btn.addEventListener('click', () => openModal(rsvpModal));
-  });
   document.getElementById('closeRsvpBtn')?.addEventListener('click', () => closeModal(rsvpModal));
-
-  // Map triggers
-  document.getElementById('openMapBtn')?.addEventListener('click', () => openModal(mapModal));
   document.getElementById('closeMapBtn')?.addEventListener('click', () => closeModal(mapModal));
 
-  // Close on backdrop click
   [rsvpModal, mapModal].forEach(m => {
     if (m) m.addEventListener('click', e => { if (e.target === m) closeModal(m); });
   });
 
-  /* ── RSVP Form Submit (Modal) ── */
-  const rsvpForm = document.getElementById('rsvpForm');
-  if (rsvpForm) {
-    rsvpForm.addEventListener('submit', () => {
-      const name = document.getElementById('guestName')?.value || 'Guest';
+  /* ── RSVP Form Submission ── */
+  function handleRsvpSubmit(formEl, containerSelector) {
+    if (!formEl) return;
+    formEl.addEventListener('submit', () => {
+      const nameInput = formEl.querySelector('input[type="text"]');
+      const name = nameInput?.value || 'Guest';
       triggerConfetti();
       showToast(`✨ Thank you, ${name}! Your RSVP has been sent.`);
 
-      // Replace form with Thank You card (prevents re-submission until page reload)
-      const container = rsvpForm.parentElement;
-      if (container) {
-        container.innerHTML = `
+      const parentContainer = formEl.closest(containerSelector) || formEl.parentElement;
+      if (parentContainer) {
+        parentContainer.innerHTML = `
           <div class="rsvp-thank-you-box">
             <div class="ty-icon">🥂</div>
             <h3>Thank You, ${name}!</h3>
@@ -599,37 +552,15 @@
     });
   }
 
-  /* ── Dedicated Inline RSVP Section Form ── */
-  const sectionRsvpForm = document.getElementById('sectionRsvpForm');
-  if (sectionRsvpForm) {
-    sectionRsvpForm.addEventListener('submit', () => {
-      const name = document.getElementById('secGuestName')?.value || 'Guest';
-      triggerConfetti();
-      showToast(`✨ Thank you, ${name}! Your RSVP has been sent.`);
-
-      // Replace form with Thank You card (prevents re-submission until page reload)
-      const cardBox = sectionRsvpForm.closest('.rsvp-card-box');
-      if (cardBox) {
-        cardBox.innerHTML = `
-          <div class="rsvp-thank-you-box">
-            <div class="ty-icon">🥂</div>
-            <h3>Thank You, ${name}!</h3>
-            <p class="ty-msg">Your RSVP response has been received. We look forward to celebrating together in The Sacred Garden!</p>
-            <div class="ty-ornament">❖ ✦ ❖</div>
-            <p class="ty-sub">To submit a new response, please reload the page.</p>
-          </div>
-        `;
-      }
-    });
-  }
+  handleRsvpSubmit(document.getElementById('rsvpForm'), '.modal-box');
+  handleRsvpSubmit(document.getElementById('sectionRsvpForm'), '.rsvp-card-box');
 
   /* ────────────────────────────────────────────────────────────────
-     WEDDING FAQ ACCORDION LOGIC
+     8. FAQ ACCORDION
   ──────────────────────────────────────────────────────────────── */
   const faqItems = document.querySelectorAll('.faq-item');
   faqItems.forEach((item, index) => {
     if (index === 0) item.classList.add('active');
-
     const btn = item.querySelector('.faq-question');
     btn?.addEventListener('click', () => {
       const isOpen = item.classList.contains('active');
@@ -641,7 +572,7 @@
   });
 
   /* ────────────────────────────────────────────────────────────────
-     CONFETTI
+     9. CONFETTI & TOAST UTILITIES
   ──────────────────────────────────────────────────────────────── */
   function triggerConfetti() {
     const cc = document.createElement('canvas');
@@ -690,41 +621,6 @@
     draw();
   }
 
-  /* ── Append wish card ── */
-  const wishesGrid = document.getElementById('wishesGrid');
-  function appendWish(name, message, tag) {
-    if (!wishesGrid) return;
-    const el = document.createElement('div');
-    el.className = 'wish-card';
-    el.style.animation = 'toastIn 0.5s ease';
-    el.innerHTML = `
-      <p class="wish-quote">"${message}"</p>
-      <div class="wish-footer">
-        <span class="wish-name">${name}</span>
-        <span class="wish-tag">${tag}</span>
-      </div>`;
-    wishesGrid.prepend(el);
-  }
-
-  /* ────────────────────────────────────────────────────────────────
-     MAP PREVIEW & CALENDAR
-  ──────────────────────────────────────────────────────────────── */
-  document.getElementById('vmpMapFrame')?.addEventListener('click', () => {
-    window.open('https://maps.google.com/?q=The+Glasshouse+Estate+Highland+Estate+CA', '_blank', 'noopener,noreferrer');
-  });
-
-  ['addToCalBtn', 'saveDateBtn'].forEach(id => {
-    document.getElementById(id)?.addEventListener('click', () => {
-      const title  = encodeURIComponent("Wedding of Eleanor & Alexander");
-      const details= encodeURIComponent("You are cordially invited to The Sacred Garden wedding celebration.");
-      const loc    = encodeURIComponent("The Glasshouse Estate, 774 Emerald Valley Road, Highland Estate, CA 90210");
-      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261024T160000Z/20261024T230000Z&details=${details}&location=${loc}`, '_blank');
-    });
-  });
-
-  /* ────────────────────────────────────────────────────────────────
-     TOAST
-  ──────────────────────────────────────────────────────────────── */
   const toastContainer = document.getElementById('toastContainer');
   function showToast(msg) {
     if (!toastContainer) return;
@@ -741,7 +637,17 @@
   }
 
   /* ────────────────────────────────────────────────────────────────
-     SCRATCH CARD DATE REVEAL LOGIC
+     10. SAVE DATE TO CALENDAR
+  ──────────────────────────────────────────────────────────────── */
+  document.getElementById('saveDateBtn')?.addEventListener('click', () => {
+    const title  = encodeURIComponent("Wedding of Eleanor & Alexander");
+    const details= encodeURIComponent("You are cordially invited to The Sacred Garden wedding celebration.");
+    const loc    = encodeURIComponent("The Glasshouse Estate, 774 Emerald Valley Road, Highland Estate, CA 90210");
+    window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261024T160000Z/20261024T230000Z&details=${details}&location=${loc}`, '_blank');
+  });
+
+  /* ────────────────────────────────────────────────────────────────
+     11. SCRATCH CARD DATE REVEAL LOGIC
   ──────────────────────────────────────────────────────────────── */
   function triggerMusicOnScratch() {
     if (!userManuallyPaused && bgAudio && bgAudio.paused) {
@@ -763,7 +669,6 @@
 
       try { playChime(); } catch (_) {}
 
-      // Add ease reveal fade class to all canvases
       document.querySelectorAll('.scratch-canvas').forEach(canvas => {
         canvas.classList.add('revealed-fade');
       });
@@ -783,7 +688,6 @@
       const w = canvas.width;
       const h = canvas.height;
 
-      // Draw metallic gold foil layer using user's custom gold gradient
       function drawFoil() {
         ctx.save();
         ctx.globalCompositeOperation = 'source-over';
@@ -836,7 +740,6 @@
 
         scratchStrokes++;
 
-        // Scratching a little bit triggers the smooth ease reveal fade!
         if (scratchStrokes >= 3) {
           revealAllDateTiles();
         }
@@ -852,12 +755,10 @@
         isDrawing = false;
       }
 
-      // Mouse events
       canvas.addEventListener('mousedown', startScratch);
       canvas.addEventListener('mousemove', scratch);
       window.addEventListener('mouseup', stopScratch);
 
-      // Touch events for mobile
       canvas.addEventListener('touchstart', (e) => {
         triggerMusicOnScratch();
         startScratch(e);
@@ -868,7 +769,6 @@
       }, { passive: true });
       canvas.addEventListener('touchend', stopScratch);
 
-      // Tapping directly on canvas also reveals and starts music
       canvas.addEventListener('click', () => {
         triggerMusicOnScratch();
         revealAllDateTiles();
@@ -879,7 +779,7 @@
   initScratchCards();
 
   /* ────────────────────────────────────────────────────────────────
-     BOOT: Start directly on Stage 1 ("The Sacred Garden") page
+     12. INITIAL BOOT
   ──────────────────────────────────────────────────────────────── */
   initOpenParticles(45);
   renderOpenParticles();
