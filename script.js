@@ -216,6 +216,13 @@
 
     try { playChime(); } catch (_) {}
 
+    document.body.classList.remove('cinematic-active');
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
     if (cinematicEl) {
       cinematicEl.classList.add('fade-out');
     }
@@ -225,6 +232,10 @@
       mainContentEl.style.transition = 'opacity 1s ease';
       mainContentEl.style.opacity = '1';
     }
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 
     if (openingAnimId) {
       cancelAnimationFrame(openingAnimId);
@@ -236,6 +247,9 @@
     try { playBgMusic(); } catch (_) {}
 
     setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
       if (cinematicEl) {
         cinematicEl.style.display = 'none';
       }
@@ -781,6 +795,7 @@
   /* ────────────────────────────────────────────────────────────────
      12. INITIAL BOOT
   ──────────────────────────────────────────────────────────────── */
+  document.body.classList.add('cinematic-active');
   initOpenParticles(45);
   renderOpenParticles();
   showStage(1);
