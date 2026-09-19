@@ -676,67 +676,9 @@ sealBreak .8s forwards;
 }
 @media (hover:none) { .custom-cursor, .custom-cursor-follower { display:none; } }
 
-/* ── Navigation ─────────────────────────────────────────────── */
-.navbar {
-  position:fixed; top:14px; left:50%; transform:translateX(-50%);
-  width:min(95%, 1050px); padding:12px 20px;
-  background:rgba(8,22,14,0.8); backdrop-filter:blur(16px);
-  border:var(--gold-border); border-radius:40px;
-  display:flex; align-items:center; justify-content:space-between;
-  z-index:500; box-shadow:0 8px 30px rgba(0,0,0,0.5);
-}
-.nav-logo {
-  font-family:var(--ff-deco); font-size:1.2rem; font-weight:700;
-  background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  flex-shrink:0;
-}
-.nav-hamburger {
-  display:none; flex-direction:column; gap:4px;
-  background:none; border:none; padding:4px;
-}
-.nav-hamburger span {
-  width:22px; height:2px; background:var(--gold); border-radius:2px;
-  transition:all 0.3s;
-}
-.nav-menu {
-  display:flex; align-items:center; gap:20px;
-}
-.nav-links {
-  display:flex; list-style:none; gap:18px;
-}
-.nav-link {
-  color:var(--text); font-size:0.8rem; font-weight:500;
-  letter-spacing:1px; text-transform:uppercase;
-  transition:color 0.3s;
-}
-.nav-link:hover { color:var(--gold); }
-.nav-rsvp-btn {
-  background:var(--gold-grad); border:none;
-  padding:8px 18px; border-radius:20px;
-  font-family:var(--ff-head); font-size:0.75rem;
-  font-weight:700; color:var(--dark);
-  letter-spacing:1px; text-transform:uppercase;
-  transition:transform 0.3s, box-shadow 0.3s;
-  white-space:nowrap;
-}
-.nav-rsvp-btn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(212,175,55,0.4); }
 
-/* Mobile nav */
-@media (max-width:768px) {
-  .nav-hamburger { display:flex; }
-  .nav-menu {
-    position:absolute; top:calc(100% + 10px); left:0; right:0;
-    background:rgba(8,22,14,0.97); border:var(--gold-border); border-radius:16px;
-    flex-direction:column; padding:20px; gap:16px;
-    max-height:0; overflow:hidden; opacity:0; visibility:hidden;
-    transition:max-height 0.4s var(--ease), opacity 0.3s, visibility 0.3s;
-  }
-  .nav-menu.open {
-    max-height:400px; opacity:1; visibility:visible;
-  }
-  .nav-links { flex-direction:column; gap:12px; align-items:center; }
-  .nav-rsvp-btn { width:100%; text-align:center; padding:12px; }
-}
+
+
 
 /* Float controls */
 .float-controls {
@@ -1232,7 +1174,8 @@ letter-spacing:5px;
 .tl-card h4 { font-family:var(--ff-head); font-size:1rem; margin:4px 0 6px; }
 .tl-card p { font-family:var(--ff-serif); font-size:0.95rem; color:var(--text-m); }
 
-/* ── Schedule Section ────────────────────────────────────────── */
+/* ── Countdown Section ────────────────────────────────────────── */
+.countdown-section-wrapper,
 .schedule-section-wrapper,
 .venue-section-wrapper,
 .dresscode-section-wrapper,
@@ -1246,6 +1189,7 @@ letter-spacing:5px;
   margin: 0;
 }
 
+.countdown-section-wrapper::after,
 .schedule-section-wrapper::after,
 .venue-section-wrapper::after,
 .dresscode-section-wrapper::after,
@@ -1263,6 +1207,23 @@ letter-spacing:5px;
   line-height: 1;
   z-index: 5;
 }
+
+.countdown-section-wrapper {
+  background: linear-gradient(180deg, #060F0A 0%, #0C2117 25%, #112C1E 50%, #0C2117 75%, #060F0A 100%);
+  box-shadow: inset 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 -30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.countdown-section-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.countdown-section { background: transparent; }
+
+/* ── Schedule Section ────────────────────────────────────────── */
 
 .schedule-section-wrapper {
   background: linear-gradient(180deg, #060F0A 0%, #0A2218 20%, #0E2E20 50%, #0A2218 80%, #060F0A 100%);
@@ -1393,7 +1354,11 @@ letter-spacing:5px;
   color: var(--text-m);
 }
 .venue-btns {
-  margin-top: 14px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 /* ── Dress Code Section ──────────────────────────────────────── */

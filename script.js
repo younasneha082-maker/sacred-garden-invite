@@ -12,8 +12,7 @@
   const cinematicEl   = document.getElementById('cinematicOpening');
   const mainContentEl = document.getElementById('mainContent');
 
-  const stage0El  = document.getElementById('stage0');
-  //const stage1El  = document.getElementById('stage1');
+  const stage1El  = document.getElementById('stage1');
   const stage2El  = document.getElementById('stage2');
   const stage3El  = document.getElementById('stage3');
   const envScene  = document.getElementById('envScene');
