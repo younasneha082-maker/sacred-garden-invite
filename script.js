@@ -91,9 +91,9 @@
   }
 
   function showStage(n) {
-    [stage0El, stage1El, stage2El, stage3El].forEach((el, i) => {
+    [stage1El, stage2El, stage3El].forEach((el, i) => {
       if (el) {
-        if (i === n) {
+        if (i + 1 === n) {
           el.classList.add('active');
         } else {
           el.classList.remove('active');
@@ -104,7 +104,6 @@
   }
 
   // ── Stage 1 → Main Invitation (on click, tap, or swipe up) ──
-  const stage1El = document.getElementById('stage1');
   const stage1TapPrompt = document.getElementById('stage1TapPrompt');
   let touchStartY = 0;
 
